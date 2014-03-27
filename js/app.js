@@ -27,7 +27,7 @@ function Entry(){
 }
 Entry.prototype.populate = function(src){
   var t = dictionary.teachers['p'+src[0]].split(' ');
-  t.reverse();
+  t.unshift( t.pop() );
   this.teacher = t.join(' ');
   this.course = dictionary.courses['C'+src[1]];
   this.hour = Number(src[2]);
