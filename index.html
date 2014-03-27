@@ -43,15 +43,16 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 45px;
+      height: 60px;
       margin: 0;
       padding: 0;
       background: #c50022;
     }
 
-    ul#results {
+    .results {
+      display: block;
       position: fixed;
-      top: 45px;
+      top: 60px;
       left: 0;
       right: 0;
       bottom: 0;
@@ -61,7 +62,7 @@
       overflow: auto;
     }
 
-    ul#results li {
+    ul.results li {
       position: relative;
       text-align: center;
       padding: 1px;
@@ -83,7 +84,7 @@
     li span.teacher {
       position: absolute;
       top:0;
-      right: 20%;
+      right: 0%;
       left: 20%;
       line-height: 3em;
       text-align: center;
@@ -102,12 +103,14 @@
   </head>
   <body>
 
-    <nav></nav>
+    <nav class="no-scroll"></nav>
 
-    <ul id="results"></ul>
+    <section class="results">
+      <ul class="results"></ul>
+    </section>
 
     <script type="text/javascript" src="js/underscore-min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
-    <script type="text/javascript" src="http://extranet.infographie-sup.be/extranet/school_confidential/WhoWhen.php?date=2014-03-25&callback=init"></script>
+    <script type="text/javascript" src="http://extranet.infographie-sup.be/extranet/school_confidential/WhoWhen.php?callback=init"></script>
   </body>
 </html>

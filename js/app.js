@@ -1,6 +1,18 @@
+"use strict";
+
 /////////////////////////////////////////////////////////////////////////////////////
 // requestAnimationFrame polyfill
 (function(){var lastTime=0;var vendors=['ms','moz','webkit','o'];for(var x=0;x<vendors.length&&!window.requestAnimationFrame;++x){window.requestAnimationFrame=window[vendors[x]+'RequestAnimationFrame'];window.cancelAnimationFrame=window[vendors[x]+'CancelAnimationFrame']||window[vendors[x]+'CancelRequestAnimationFrame'];}if(!window.requestAnimationFrame)window.requestAnimationFrame=function(callback,element){var currTime=new Date().getTime();var timeToCall=Math.max(0,16-(currTime-lastTime));var id=window.setTimeout(function(){callback(currTime+timeToCall);},timeToCall);lastTime=currTime+timeToCall;return id;};if(!window.cancelAnimationFrame)window.cancelAnimationFrame=function(id){clearTimeout(id);};}());
+
+/////////////////////////////////////////////////////////////////////////////////////
+// no-scroll touch fix
+(function(els){
+  var noScrollFn = function( e ) { e.preventDefault(); };
+  Array.prototype.forEach.call( els, function(el,i){
+    el.addEventListener( 'touchstart', noScrollFn );
+  });
+}(document.querySelectorAll( '.no-scroll' )));
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +40,7 @@ Entry.prototype.render = function(){
   var o = '<li>';
   o += '<span class="location">'+this.location+'</span>';
   o += '<span class="teacher">'+this.teacher+'</span>';
-  o += '<span class="group">'+this.group+'</span>';
+  //o += '<span class="group">'+this.group+'</span>';
   o += '</li>';
   return o;
   //'<li><b>' + entry.location + '</b> : ' + entry.teacher + ', ' + entry.course + ', ' + entry.group + '</li>';
@@ -43,8 +55,9 @@ function EntryFactory(src){
 var 
   dictionary,
   entries = [],
+  periods = [8.666,9.666,10.833,11.833,12.833,13.833,14.833,16,17,18,19],
   currentHour = 1,
-  results = document.getElementById("results");
+  results = document.querySelector("ul.results");
 
 function init(data){
   if ( data.status === 'OK' ) {
@@ -75,6 +88,11 @@ function filterResults() {
   // sort by classroom
   validEntries = _.sortBy(validEntries,'location');
 
+  // temporary remove dupcliates
+  // TODO: group teachers by classroom
+  validEntries = _.uniq( validEntries, true, function(e){ return e.location + e.teacher; });
+
+  // display
   results.innerHTML = _.reduce(validEntries, function(memo,entry){
     return memo + entry.render();
   }, '');
