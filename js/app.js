@@ -86,11 +86,24 @@ Group.prototype.add = function(entry){
   if ( this.groups.indexOf(entry.group)<0 ) this.groups.push(entry.group);
 }
 
-Group.prototype.render = function(){
-  var o = '<li>';
+Group.prototype.render = function(index){
+  var o = '<li data-group-id="'+index+'">';
   o += '<span class="location">'+this.location+'</span>';
   o += '<span class="teacher">'+this.teachers.join('<br>')+'</span>';
-  o += '<span class="hour-to">-&gt; '+periodLabels[this.hourTo-1]+'</span>';
+  o += '<span class="hour-to">-&gt; '+periodLabels[this.hourTo]+'</span>';
+  //o += '<span class="group">'+this.group+'</span>';
+  o += '</li>';
+  return o;
+  //'<li><b>' + entry.location + '</b> : ' + entry.teacher + ', ' + entry.course + ', ' + entry.group + '</li>';
+};
+
+Group.prototype.renderFull = function(index){
+  var o = '';
+  o += '<span class="location">'+this.location+'</span>';
+  o += '<span class="teacher">'+this.teachers.join('<br>')+'</span>';
+  o += '<span class="course">'+this.course+'</span>';
+  o += '<span class="groups">'+this.groups.join(' . ')+'</span>';
+  o += '<span class="hour-from-to">de '+periodLabels[this.hour-1]+' à '+periodLabels[this.hourTo]+'</span>';
   //o += '<span class="group">'+this.group+'</span>';
   o += '</li>';
   return o;
@@ -106,10 +119,12 @@ var
   dictionary,
   entries = [],
   periods = [8.666,9.666,10.833,11.833,12.833,13.833,14.833,16,17,18,19],
-  periodLabels = ['8h45','9h45','10h50','11h50','12h50','13h50','14h50','16h00','17h00','18h00','19h00'],
+  periodLabels = ['8h40','9h40','10h50','11h50','12h50','13h50','14h50','16h00','17h00','18h00','19h00'],
   currentPeriod = 1,
   touch = {x:0,y:0},
-  results = document.querySelector("ul.results");
+  results = document.querySelector("ul.results"),
+  details = document.querySelector("section.details"),
+  groups;
 
 function init(data){
   if ( data.status === 'OK' ) {
@@ -139,6 +154,12 @@ function addListeners(){
   results.addEventListener('touchstart',onTouchStart);
   //results.addEventListener('touchmove',onTouchMove);
   results.addEventListener('touchend',onTouchEnd);
+  details.addEventListener('touchstart',onDetailsTouchStart);
+}
+
+function onDetailsTouchStart(e){
+  //e.preventDefault();
+  details.classList.remove("visible");
 }
 
 function onTouchStart(e){
@@ -146,15 +167,14 @@ function onTouchStart(e){
   touch.y = e.changedTouches[0].pageY;
 }
 
-function onTouchMove(e){
-  var nx = e.changedTouches[0].pageX;
-  if ( (touch.x - nx) > 40 ) e.target.classList.toggle("selected");
-}
-
 function onTouchEnd(e){
   touch.x -= e.changedTouches[0].pageX;
   touch.y -= e.changedTouches[0].pageY;
-  if ( Math.sqrt(touch.x*touch.x+touch.y*touch.y)< 5 ) e.target.classList.toggle("selected");
+  if ( Math.sqrt(touch.x*touch.x+touch.y*touch.y)< 5 ) {
+    //e.target.classList.toggle("selected");
+    details.innerHTML = groups[e.target.dataset.groupId].renderFull();
+    details.classList.add("visible");
+  }
   //e.target.classList.remove("selected");
 
 }
@@ -170,7 +190,7 @@ function filterResults() {
   // TODO: group teachers by classroom
   //validEntries = _.uniq( validEntries, true, function(e){ return e.location + e.teacher; });
 
-  var groups = [];
+  groups = [];
   _.each(validEntries,function(element, index, list){
     if ( index===0 || list[index-1].location != list[index].location ) {
       groups.push( new Group(list[index]) );
@@ -180,8 +200,8 @@ function filterResults() {
   });
 
   // display
-  results.innerHTML = _.reduce(groups, function(memo,group){
-    return memo + group.render();
+  results.innerHTML = _.reduce(groups, function(memo,group,index){
+    return memo + group.render(index);
   }, '');
 
 }

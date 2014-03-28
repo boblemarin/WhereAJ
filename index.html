@@ -53,6 +53,10 @@
       margin: 0;
       padding: 0;
       background: #c50022;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      line-height: 60px;
     }
 
     .results {
@@ -94,7 +98,6 @@
     }*/
 
     li span.location {
-      /*float: right;*/
       display: inline-block;
       width: 25%;
       text-align: center;
@@ -106,9 +109,7 @@
     li span.teacher {
       display: inline-block;
       vertical-align: middle;
-      /*width: 200px;*/
       width: 60%;
-      /*line-height: 3em;*/
       text-align: center;
       font-size: 18px;
       line-height: 24px;
@@ -126,13 +127,47 @@
     li span.hour-to {
       display: inline-block;
       vertical-align: middle;
-      /*width: 200px;*/
       width: 15%;
-      /*line-height: 3em;*/
       text-align: center;
       font-size: 12px;
       line-height: 24px;
       pointer-events: none;
+    }
+
+    section.details {
+      position: fixed;
+      top: 0px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 10px;
+      text-align: center;
+      background-color: white;
+      transition: all .1s ease-in;
+      -webkit-transform: scale3d(.5, .5, 1);
+      opacity: 0;
+      pointer-events: none;
+      margin: 10px;
+    }
+
+    .details.visible {
+      pointer-events: auto;
+      opacity: 1;
+      transition: all .1s ease-out;
+      -webkit-transform: scale3d(1, 1, 1);
+    }
+
+    section.details span {
+      margin: 5px;
+      display: block;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 22px;
+      background-color: #f7d8db;
+    }
+    section.details span:nth-child(odd) {
+      background-color: #e9969e;
     }
 
     select {
@@ -144,6 +179,7 @@
   <body>
 
     <nav class="no-scroll">
+      Who's Where ?
 <!--       <select name="select">
         <option value="teacher" selected>Profs</option> 
         <option value="group">Classes</option>
@@ -152,6 +188,10 @@
 
     <section class="results">
       <ul class="results"></ul>
+    </section>
+
+    <section class="details">
+      Here comes the details...
     </section>
 
     <script type="text/javascript" src="js/underscore-min.js"></script>
