@@ -1,11 +1,19 @@
 "use strict";
 
 /////////////////////////////////////////////////////////////////////////////////////
-// requestAnimationFrame polyfill
+/////////////////////////////////////////////////////////////////////////////////////
+// requestAnimationFrame polyfill -- by Paul Irish https://gist.github.com/paulirish/1579671
+/////////////////////////////////////////////////////////////////////////////////////
+
 (function(){var lastTime=0;var vendors=['ms','moz','webkit','o'];for(var x=0;x<vendors.length&&!window.requestAnimationFrame;++x){window.requestAnimationFrame=window[vendors[x]+'RequestAnimationFrame'];window.cancelAnimationFrame=window[vendors[x]+'CancelAnimationFrame']||window[vendors[x]+'CancelRequestAnimationFrame'];}if(!window.requestAnimationFrame)window.requestAnimationFrame=function(callback,element){var currTime=new Date().getTime();var timeToCall=Math.max(0,16-(currTime-lastTime));var id=window.setTimeout(function(){callback(currTime+timeToCall);},timeToCall);lastTime=currTime+timeToCall;return id;};if(!window.cancelAnimationFrame)window.cancelAnimationFrame=function(id){clearTimeout(id);};}());
 
+
+
+/////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 // no-scroll touch fix
+/////////////////////////////////////////////////////////////////////////////////////
+
 (function(els){
   var noScrollFn = function( e ) { e.preventDefault(); };
   Array.prototype.forEach.call( els, function(el,i){
@@ -16,7 +24,10 @@
 
 
 /////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 // Entry class
+/////////////////////////////////////////////////////////////////////////////////////
+
 function Entry(){
   this.teacher = '';
   this.course = '';
@@ -25,6 +36,7 @@ function Entry(){
   this.hour = 0;
   this.hourTo = 0;
 }
+
 Entry.prototype.populate = function(src){
   var t = dictionary.teachers['p'+src[0]].split(' ');
   t.unshift( t.pop() );
@@ -36,6 +48,7 @@ Entry.prototype.populate = function(src){
   this.location = dictionary.locations['l'+src[5]];
   return this;
 };
+
 Entry.prototype.render = function(){
   var o = '<li>';
   o += '<span class="location">'+this.location+'</span>';
@@ -45,18 +58,55 @@ Entry.prototype.render = function(){
   return o;
   //'<li><b>' + entry.location + '</b> : ' + entry.teacher + ', ' + entry.course + ', ' + entry.group + '</li>';
 };
+
 function EntryFactory(src){
   return (new Entry()).populate(src);
 }
 
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// Group class
+/////////////////////////////////////////////////////////////////////////////////////
+
+function Group(entry){
+  this.entries = [entry];
+  this.teachers = [entry.teacher];
+  this.course = entry.course;
+  this.location = entry.location;
+  this.groups = [entry.group];
+  this.hour = entry.hour;
+  this.hourTo = entry.hourTo;
+}
+
+Group.prototype.add = function(entry){
+  this.entries.push(entry);
+  if ( this.teachers.indexOf(entry.teacher)<0 ) this.teachers.push(entry.teacher);
+  if ( this.groups.indexOf(entry.group)<0 ) this.groups.push(entry.group);
+}
+
+Group.prototype.render = function(){
+  var o = '<li>';
+  o += '<span class="location">'+this.location+'</span>';
+  o += '<span class="teacher">'+this.teachers.join('<br>')+'</span>';
+  //o += '<span class="group">'+this.group+'</span>';
+  o += '</li>';
+  return o;
+  //'<li><b>' + entry.location + '</b> : ' + entry.teacher + ', ' + entry.course + ', ' + entry.group + '</li>';
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 // Main app
-
+/////////////////////////////////////////////////////////////////////////////////////
 var 
   dictionary,
   entries = [],
   periods = [8.666,9.666,10.833,11.833,12.833,13.833,14.833,16,17,18,19],
-  currentHour = 1,
+  periodLabels = ['8h45','9h45','10h50','11h50','12h50','13h50','14h50','16h00','17h00','18h00','19h00'],
+  currentPeriod = 1,
   results = document.querySelector("ul.results");
 
 function init(data){
@@ -81,20 +131,36 @@ function init(data){
   
 }
 
+function addListeners(){
+  //results.addEventListener('touchstart',)
+}
+function onTouchStart(e){
+
+}
+
 function filterResults() {
   // find correct entries
-  var validEntries = _.where(entries,{hour:currentHour});
+  var validEntries = _.where(entries,{hour:currentPeriod});
 
   // sort by classroom
   validEntries = _.sortBy(validEntries,'location');
 
   // temporary remove dupcliates
   // TODO: group teachers by classroom
-  validEntries = _.uniq( validEntries, true, function(e){ return e.location + e.teacher; });
+  //validEntries = _.uniq( validEntries, true, function(e){ return e.location + e.teacher; });
+
+  var groups = [];
+  _.each(validEntries,function(element, index, list){
+    if ( index===0 || list[index-1].location != list[index].location ) {
+      groups.push( new Group(list[index]) );
+    } else {
+      _.last(groups).add(list[index]);
+    }
+  });
 
   // display
-  results.innerHTML = _.reduce(validEntries, function(memo,entry){
-    return memo + entry.render();
+  results.innerHTML = _.reduce(groups, function(memo,group){
+    return memo + group.render();
   }, '');
 
 }

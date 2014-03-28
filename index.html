@@ -66,29 +66,41 @@
       position: relative;
       text-align: center;
       padding: 1px;
-      height: 3em;
-      border-bottom: 1px solid #CCC;
+      /*min-height: 3em;*/
+      border-bottom: 4px solid #DDD;
+      padding: 12px 0;
+      vertical-align: middle;
+      display: table-cell;
+      float: left;
+      clear: left;
+      width: 100%;
+      transition: background-color .2s ease-in;
+    }
+
+    ul.results li:hover,
+    ul.results li:active,
+    ul.results li:focus {
+      background-color: #c50022;
     }
 
     li span.location {
-      position: absolute;
-      top:0;
-      left: 0;
-      bottom: 0;
-      width: 20%;
-      line-height: 2em;
+      /*float: right;*/
+      display: inline-block;
+      width: 25%;
       text-align: center;
       font-weight: bold;
       font-size: 24px;
+      vertical-align: middle;
     }
     li span.teacher {
-      position: absolute;
-      top:0;
-      right: 0%;
-      left: 20%;
-      line-height: 3em;
+      display: inline-block;
+      vertical-align: middle;
+      /*width: 200px;*/
+      width: 75%;
+      /*line-height: 3em;*/
       text-align: center;
       font-size: 18px;
+      line-height: 24px;
     }
     li span.group {
       position: absolute;
