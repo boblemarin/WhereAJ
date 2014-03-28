@@ -35,6 +35,12 @@
       margin: 0;
       background: white;
       font-family: Helvetica;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
 
@@ -74,14 +80,18 @@
       float: left;
       clear: left;
       width: 100%;
-      transition: background-color .2s ease-in;
+      transition: -webkit-transform .2s ease-out;
     }
 
-    ul.results li:hover,
-    ul.results li:active,
-    ul.results li:focus {
-      background-color: #c50022;
+    ul.results li.selected {
+      /*transition: background-color .3s ease-in;*/
+     /* background-color: #e9969e;*/
+     -webkit-transform: translate3d(-40px, 0, 0);
     }
+
+    /*li * {
+      border: 1px solid red;
+    }*/
 
     li span.location {
       /*float: right;*/
@@ -91,16 +101,18 @@
       font-weight: bold;
       font-size: 24px;
       vertical-align: middle;
+      pointer-events: none;
     }
     li span.teacher {
       display: inline-block;
       vertical-align: middle;
       /*width: 200px;*/
-      width: 75%;
+      width: 60%;
       /*line-height: 3em;*/
       text-align: center;
       font-size: 18px;
       line-height: 24px;
+      pointer-events: none;
     }
     li span.group {
       position: absolute;
@@ -109,13 +121,34 @@
       left: 80%;
       text-align: center;
       font-size: 18px;
+      pointer-events: none;
+    }
+    li span.hour-to {
+      display: inline-block;
+      vertical-align: middle;
+      /*width: 200px;*/
+      width: 15%;
+      /*line-height: 3em;*/
+      text-align: center;
+      font-size: 12px;
+      line-height: 24px;
+      pointer-events: none;
+    }
+
+    select {
+      font-size: 22px;
     }
     </style>
 
   </head>
   <body>
 
-    <nav class="no-scroll"></nav>
+    <nav class="no-scroll">
+<!--       <select name="select">
+        <option value="teacher" selected>Profs</option> 
+        <option value="group">Classes</option>
+      </select> -->
+    </nav>
 
     <section class="results">
       <ul class="results"></ul>

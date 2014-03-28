@@ -17,7 +17,7 @@
 (function(els){
   var noScrollFn = function( e ) { e.preventDefault(); };
   Array.prototype.forEach.call( els, function(el,i){
-    el.addEventListener( 'touchstart', noScrollFn );
+    el.addEventListener( 'touchmove', noScrollFn );
   });
 }(document.querySelectorAll( '.no-scroll' )));
 
@@ -90,6 +90,7 @@ Group.prototype.render = function(){
   var o = '<li>';
   o += '<span class="location">'+this.location+'</span>';
   o += '<span class="teacher">'+this.teachers.join('<br>')+'</span>';
+  o += '<span class="hour-to">-&gt; '+periodLabels[this.hourTo-1]+'</span>';
   //o += '<span class="group">'+this.group+'</span>';
   o += '</li>';
   return o;
@@ -107,6 +108,7 @@ var
   periods = [8.666,9.666,10.833,11.833,12.833,13.833,14.833,16,17,18,19],
   periodLabels = ['8h45','9h45','10h50','11h50','12h50','13h50','14h50','16h00','17h00','18h00','19h00'],
   currentPeriod = 1,
+  touch = {x:0,y:0},
   results = document.querySelector("ul.results");
 
 function init(data){
@@ -124,6 +126,8 @@ function init(data){
 
     // display first results
     filterResults();
+
+    addListeners()
   } else {
     // show alert on api error
     alert(data.status);
@@ -132,9 +136,26 @@ function init(data){
 }
 
 function addListeners(){
-  //results.addEventListener('touchstart',)
+  results.addEventListener('touchstart',onTouchStart);
+  //results.addEventListener('touchmove',onTouchMove);
+  results.addEventListener('touchend',onTouchEnd);
 }
+
 function onTouchStart(e){
+  touch.x = e.changedTouches[0].pageX;
+  touch.y = e.changedTouches[0].pageY;
+}
+
+function onTouchMove(e){
+  var nx = e.changedTouches[0].pageX;
+  if ( (touch.x - nx) > 40 ) e.target.classList.toggle("selected");
+}
+
+function onTouchEnd(e){
+  touch.x -= e.changedTouches[0].pageX;
+  touch.y -= e.changedTouches[0].pageY;
+  if ( Math.sqrt(touch.x*touch.x+touch.y*touch.y)< 5 ) e.target.classList.toggle("selected");
+  //e.target.classList.remove("selected");
 
 }
 
