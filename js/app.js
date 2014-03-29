@@ -118,8 +118,8 @@ Group.prototype.renderFull = function(index){
 var 
   dictionary,
   entries = [],
-  periods = [8.666,9.666,10.833,11.833,12.833,13.833,14.833,16,17,18,19],
-  periodLabels = ['8h40','9h40','10h50','11h50','12h50','13h50','14h50','16h00','17h00','18h00','19h00'],
+  periods = [8.666,9.666,10.833,11.833,12.833,13.833,14.833,16,17,18,19,20],
+  periodLabels = ['8h40','9h40','10h50','11h50','12h50','13h50','14h50','16h00','17h00','18h00','19h00','20h00'],
   currentPeriod = 1,
   touch = {x:0,y:0},
   results = document.querySelector("ul.results"),
@@ -139,6 +139,8 @@ function init(data){
     // convert raw data to Entry instances
     _.each(data.timetable, function(e){ entries.push( EntryFactory(e) ); });
 
+    findCurrentPeriod();
+
     // display first results
     filterResults();
 
@@ -148,6 +150,14 @@ function init(data){
     alert(data.status);
   }
   
+}
+
+function findCurrentPeriod() {
+  var now = new Date();
+  var p = now.getHours() + now.getMinutes()/60;
+  p = _.find(periods,function(v){return p>v});
+  if ( !p ) currentPeriod = 2;
+  else currentPeriod = p+1;
 }
 
 function addListeners(){
@@ -181,7 +191,9 @@ function onTouchEnd(e){
 
 function filterResults() {
   // find correct entries
-  var validEntries = _.where(entries,{hour:currentPeriod});
+  var validEntries = _.filter(entries,function(entry){
+    return entry.hour <= currentPeriod && entry.hourTo >= currentPeriod;
+  });
 
   // sort by classroom
   validEntries = _.sortBy(validEntries,'location');
