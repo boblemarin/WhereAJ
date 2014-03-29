@@ -5,6 +5,9 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="WhereAJ">
     <link rel="apple-touch-icon-precomposed" href="img/icon.png">
     
     <title>WhereAJ</title>
@@ -35,6 +38,12 @@
       margin: 0;
       background: white;
       font-family: Helvetica;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
 
@@ -43,15 +52,20 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 45px;
+      height: 60px;
       margin: 0;
       padding: 0;
       background: #c50022;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      line-height: 60px;
     }
 
-    ul#results {
+    .results {
+      display: block;
       position: fixed;
-      top: 45px;
+      top: 60px;
       left: 0;
       right: 0;
       bottom: 0;
@@ -61,33 +75,48 @@
       overflow: auto;
     }
 
-    ul#results li {
+    ul.results li {
       position: relative;
       text-align: center;
       padding: 1px;
-      height: 3em;
-      border-bottom: 1px solid #CCC;
+      /*min-height: 3em;*/
+      border-bottom: 4px solid #DDD;
+      padding: 12px 0;
+      vertical-align: middle;
+      display: table-cell;
+      float: left;
+      clear: left;
+      width: 100%;
+      transition: -webkit-transform .2s ease-out;
     }
 
+    ul.results li.selected {
+      /*transition: background-color .3s ease-in;*/
+     /* background-color: #e9969e;*/
+     -webkit-transform: translate3d(-40px, 0, 0);
+    }
+
+    /*li * {
+      border: 1px solid red;
+    }*/
+
     li span.location {
-      position: absolute;
-      top:0;
-      left: 0;
-      bottom: 0;
-      width: 20%;
-      line-height: 2em;
+      display: inline-block;
+      width: 25%;
       text-align: center;
       font-weight: bold;
       font-size: 24px;
+      vertical-align: middle;
+      pointer-events: none;
     }
     li span.teacher {
-      position: absolute;
-      top:0;
-      right: 20%;
-      left: 20%;
-      line-height: 3em;
+      display: inline-block;
+      vertical-align: middle;
+      width: 60%;
       text-align: center;
       font-size: 18px;
+      line-height: 24px;
+      pointer-events: none;
     }
     li span.group {
       position: absolute;
@@ -96,18 +125,81 @@
       left: 80%;
       text-align: center;
       font-size: 18px;
+      pointer-events: none;
+    }
+    li span.hour-to {
+      display: inline-block;
+      vertical-align: middle;
+      width: 15%;
+      text-align: center;
+      font-size: 12px;
+      line-height: 24px;
+      pointer-events: none;
+    }
+
+    section.details {
+      border: 2px solid #c50022;
+      position: fixed;
+      top: 0px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 10px;
+      text-align: center;
+      background-color: white;
+      transition: all .1s ease-in;
+      -webkit-transform: scale3d(.5, .5, 1);
+      opacity: 0;
+      pointer-events: none;
+      margin: 10px;
+    }
+
+    .details.visible {
+      pointer-events: auto;
+      opacity: 1;
+      transition: all .1s ease-out;
+      -webkit-transform: scale3d(1, 1, 1);
+    }
+
+    section.details span {
+      margin: 5px;
+      display: block;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 22px;
+      background-color: #f7d8db;
+    }
+    section.details span:nth-child(odd) {
+      background-color: #e9969e;
+    }
+
+    select {
+      font-size: 22px;
     }
     </style>
 
   </head>
   <body>
 
-    <nav></nav>
+    <nav class="no-scroll">
+      WhereAJ ?
+<!--       <select name="select">
+        <option value="teacher" selected>Profs</option> 
+        <option value="group">Classes</option>
+      </select> -->
+    </nav>
 
-    <ul id="results"></ul>
+    <section class="results">
+      <ul class="results"></ul>
+    </section>
+
+    <section class="details">
+      Here comes the details...
+    </section>
 
     <script type="text/javascript" src="js/underscore-min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
-    <script type="text/javascript" src="http://extranet.infographie-sup.be/extranet/school_confidential/WhoWhen.php?date=2014-03-25&callback=init"></script>
+    <script type="text/javascript" src="http://extranet.infographie-sup.be/extranet/school_confidential/WhoWhen.php?callback=init"></script>
   </body>
 </html>
