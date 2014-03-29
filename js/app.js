@@ -90,7 +90,7 @@ Group.prototype.render = function(index){
   var o = '<li data-group-id="'+index+'">';
   o += '<span class="location">'+this.location+'</span>';
   o += '<span class="teacher">'+this.teachers.join('<br>')+'</span>';
-  o += '<span class="hour-to">-&gt; '+periodLabels[this.hourTo]+'</span>';
+  o += '<span class="hour-to">'+this.groups[0]+'<br>» '+periodLabels[this.hourTo]+'</span>';
   //o += '<span class="group">'+this.group+'</span>';
   o += '</li>';
   return o;
