@@ -154,10 +154,13 @@ function init(data){
 
 function findCurrentPeriod() {
   var now = new Date();
-  var p = now.getHours() + now.getMinutes()/60;
-  p = _.find(periods,function(v){return p>v});
-  if ( !p ) currentPeriod = 2;
-  else currentPeriod = p+1;
+  currentPeriod = testPeriod( now.getHours() + now.getMinutes()/60 ) + 1 || 1;
+}
+
+function testPeriod(p){
+  var n = periods.length;
+  while(n--) if ( p >= periods[n] ) break;
+  return n;
 }
 
 function addListeners(){
