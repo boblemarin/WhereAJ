@@ -1,205 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>WhereAJ</title>
+        <meta name="description" content="Find people at the HEAJ">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cleartype" content="on">
 
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="WhereAJ">
-    <link rel="apple-touch-icon-precomposed" href="img/icon.png">
-    
-    <title>WhereAJ</title>
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
 
-    <!--
-    viewport:
-    webapp:
-    
-    <link rel="apple-touch-icon-precomposed" href="icon.png">
-    favicon:
-    <link rel="icon" href="img/favicon.ico">
-    <link rel="icon" type="image/png" href="img/favicon.png">
-    -->
+        <!-- Tile icon for Win8 (144x144 + tile color) -->
+        <meta name="msapplication-TileImage" content="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <meta name="msapplication-TileColor" content="#cc0b1d">
 
-    <style type="text/css">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="WhereAJ">
 
-    html, body {
-      height: 100%;
-    }
-    *, *:before, *:after {
-      -webkit-box-sizing: border-box; 
-      -moz-box-sizing: border-box; 
-      box-sizing: border-box;
-    }
+        <!-- iOS 6 & 7 iPhone 5 -->
+        <link href="img/startup/startup-retina-4in.png"
+              media="(device-width: 320px) and (device-height: 568px)
+                 and (-webkit-device-pixel-ratio: 2)"
+              rel="apple-touch-startup-image">
+ 
+        <!-- iOS 6 & 7 iPhone (retina) -->
+        <link href="img/startup/startup-retina.png"
+              media="(device-width: 320px) and (device-height: 480px)
+                 and (-webkit-device-pixel-ratio: 2)"
+              rel="apple-touch-startup-image">
+ 
+        <!-- iOS 6 iPhone -->
+        <link href="img/startup/startup.png"
+              media="(device-width: 320px) and (device-height: 480px)
+                 and (-webkit-device-pixel-ratio: 1)"
+              rel="apple-touch-startup-image">
 
-    body {
-      padding: 0;
-      margin: 0;
-      background: white;
-      font-family: Helvetica;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+        <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
+        <!--
+        <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+        -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <!--<script src="js/vendor/modernizr-2.6.2.min.js"></script>-->
+    </head>
+    <body>
+
+        <nav class="no-scroll">
+            <span class="header-date"><span>
+        </nav>
+
+        <section class="results">
+            <ul class="results"></ul>
+        </section>
+
+        <section class="details">
+            
+        </section>
+
+        <section class="helas hidden no-scroll"><span class="smoule">: (</span><span>il n'y a personne...</span></section>
+
+        <section class="overlay no-scroll"></section>
 
 
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      margin: 0;
-      padding: 0;
-      background: #c50022;
-      text-align: center;
-      color: white;
-      font-weight: bold;
-      line-height: 60px;
-    }
+        <script src="js/vendor/zepto.min.js"></script>
+        <script src="js/helper.js"></script>
 
-    .results {
-      display: block;
-      position: fixed;
-      top: 60px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: 0;
-      padding: 0;
-      -webkit-overflow-scrolling: touch;
-      overflow: auto;
-    }
 
-    ul.results li {
-      position: relative;
-      text-align: center;
-      padding: 1px;
-      /*min-height: 3em;*/
-      border-bottom: 4px solid #DDD;
-      padding: 12px 0;
-      vertical-align: middle;
-      display: table-cell;
-      float: left;
-      clear: left;
-      width: 100%;
-      transition: -webkit-transform .2s ease-out;
-    }
+        <script src="js/vendor/underscore-min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="http://extranet.infographie-sup.be/extranet/school_confidential/WhoWhen.php?callback=init" class="api-script"></script>
 
-    ul.results li.selected {
-      /*transition: background-color .3s ease-in;*/
-     /* background-color: #e9969e;*/
-     -webkit-transform: translate3d(-40px, 0, 0);
-    }
+        <script>
+            var _gaq=[["_setAccount","UA-49534630-1"],["_trackPageview"]];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
+            g.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js";
+            s.parentNode.insertBefore(g,s)}(document,"script"));
+        </script>
 
-    /*li * {
-      border: 1px solid red;
-    }*/
-
-    li span.location {
-      display: inline-block;
-      width: 25%;
-      text-align: center;
-      font-weight: bold;
-      font-size: 24px;
-      vertical-align: middle;
-      pointer-events: none;
-    }
-    li span.teacher {
-      display: inline-block;
-      vertical-align: middle;
-      width: 60%;
-      text-align: center;
-      font-size: 18px;
-      line-height: 24px;
-      pointer-events: none;
-    }
-    li span.group {
-      position: absolute;
-      bottom:0;
-      right: 0;
-      left: 80%;
-      text-align: center;
-      font-size: 18px;
-      pointer-events: none;
-    }
-    li span.hour-to {
-      display: inline-block;
-      vertical-align: middle;
-      width: 15%;
-      text-align: center;
-      font-size: 12px;
-      line-height: 24px;
-      pointer-events: none;
-    }
-
-    section.details {
-      border: 2px solid #c50022;
-      position: fixed;
-      top: 0px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: 0;
-      padding: 10px;
-      text-align: center;
-      background-color: white;
-      transition: all .1s ease-in;
-      -webkit-transform: scale3d(.5, .5, 1);
-      opacity: 0;
-      pointer-events: none;
-      margin: 10px;
-    }
-
-    .details.visible {
-      pointer-events: auto;
-      opacity: 1;
-      transition: all .1s ease-out;
-      -webkit-transform: scale3d(1, 1, 1);
-    }
-
-    section.details span {
-      margin: 5px;
-      display: block;
-      padding: 10px;
-      font-weight: bold;
-      font-size: 22px;
-      background-color: #f7d8db;
-    }
-    section.details span:nth-child(odd) {
-      background-color: #e9969e;
-    }
-
-    select {
-      font-size: 22px;
-    }
-    </style>
-
-  </head>
-  <body>
-
-    <nav class="no-scroll">
-      WhereAJ ?
-<!--       <select name="select">
-        <option value="teacher" selected>Profs</option> 
-        <option value="group">Classes</option>
-      </select> -->
-    </nav>
-
-    <section class="results">
-      <ul class="results"></ul>
-    </section>
-
-    <section class="details">
-      Here comes the details...
-    </section>
-
-    <script type="text/javascript" src="js/underscore-min.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
-    <script type="text/javascript" src="http://extranet.infographie-sup.be/extranet/school_confidential/WhoWhen.php?callback=init"></script>
-  </body>
+    </body>
 </html>
