@@ -1,0 +1,422 @@
+/*
+ * HTML5 Boilerplate
+ *
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+body {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+a {
+    color: #00e;
+}
+
+a:visited {
+    color: #551a8b;
+}
+
+a:hover {
+    color: #06e;
+}
+
+/*
+ * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
+ */
+
+img {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+
+
+
+html, body {
+ height: 100%;
+}
+
+*, *:before, *:after {
+ -webkit-box-sizing: border-box; 
+ -moz-box-sizing: border-box; 
+ box-sizing: border-box;
+}
+
+body {
+    background: white;
+    font-family: Helvetica;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    margin: 0;
+    padding: 20px 0 0 0;
+    text-align: center;
+    color: white;
+    line-height: 60px;
+    background-color: #c50022;
+    background-image:  url(../img/icon.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size:  58px 58px;
+}
+
+.results {
+    display: block;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+}
+
+ul.results li {
+    position: relative;
+    text-align: center;
+    padding: 1px;
+    border-bottom: 4px solid #DDD;
+    padding: 4px 0;
+    vertical-align: middle;
+    display: table-cell;
+    float: left;
+    clear: left;
+    width: 100%;
+    transition: -webkit-transform .2s ease-out;
+    transition: -moz-transform .2s ease-out;
+    transition: -ms-transform .2s ease-out;
+    transition: transform .2s ease-out;
+}
+
+ul.results li.selected {
+    /*transition: background-color .3s ease-in;*/
+    /* background-color: #e9969e;*/
+    -webkit-transform: translate3d(-40px, 0, 0);
+    -moz-transform: translate3d(-40px, 0, 0);
+    -ms-transform: translate3d(-40px, 0, 0);
+    transform: translate3d(-40px, 0, 0);
+}
+
+li span.location {
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+
+li span.teacher {
+    display: inline-block;
+    vertical-align: middle;
+    width: 60%;
+    text-align: center;
+    font-size: 18px;
+    line-height: 24px;
+    pointer-events: none;
+}
+
+/*li span.group {
+    position: absolute;
+    bottom:0;
+    right: 0;
+    left: 80%;
+    text-align: center;
+    font-size: 18px;
+    pointer-events: none;
+}
+*/
+li span.hour-to {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+    pointer-events: none;
+}
+
+section.details {
+    border: 2px solid #c50022;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    background-color: white;
+    transition: all .1s ease-in;
+    -webkit-transform: scale3d(.5, .5, 1);
+    -moz-transform: scale3d(.5, .5, 1);
+    -ms-transform: scale3d(.5, .5, 1);
+    transform: scale3d(.5, .5, 1);
+    opacity: 0;
+    pointer-events: none;
+    margin: 10px;
+}
+
+.details.visible {
+    pointer-events: auto;
+    opacity: 1;
+    transition: all .1s ease-out;
+    -webkit-transform: scale3d(1, 1, 1);
+    -moz-transform: scale3d(1, 1, 1);
+    -ms-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+}
+
+section.details span {
+    margin: 5px;
+    display: block;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 22px;
+    background-color: #f7d8db;
+}
+section.details span:nth-child(odd) {
+    background-color: #e9969e;
+}
+
+
+
+
+
+
+section.helas {
+    margin:0;
+    padding: 0;
+    position: fixed;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    color: black;
+    text-align: center;
+}
+
+section.helas span {
+    display: block;
+}
+
+section.helas span.smoule {
+    font-size: 66px;
+    font-weight: bold;
+    -webkit-transform: rotateZ(90deg);
+}
+
+
+section.overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    transition: opacity .4s ease-in;
+    /*background-image: url(../img/startup/startup-retina.png);
+    background-size: 100% 100%;*/
+    background: #a60e3f; /* Old browsers */
+background: -moz-linear-gradient(top,  #a60e3f 0%, #c10c27 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a60e3f), color-stop(100%,#c10c27)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #a60e3f 0%,#c10c27 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #a60e3f 0%,#c10c27 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #a60e3f 0%,#c10c27 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #a60e3f 0%,#c10c27 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a60e3f', endColorstr='#c10c27',GradientType=0 ); /* IE6-9 */
+
+}
+
+section.overlay.overlay-over {
+    opacity: 0;
+}
+
+
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/* Prevent callout */
+
+.nocallout {
+    -webkit-touch-callout: none;
+}
+
+.pressed {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* A hack for HTML5 contenteditable attribute on mobile */
+
+textarea[contenteditable] {
+    -webkit-appearance: none;
+}
+
+/* A workaround for S60 3.x and 5.0 devices which do not animated gif images if
+   they have been set as display: none */
+
+.gifhidden {
+    position: absolute;
+    left: -100%;
+}
+
+/*
+ * Image replacement
+ */
+
+.ir {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: 0;
+    direction: ltr;
+    display: block;
+    overflow: hidden;
+    text-align: left;
+    text-indent: -999em;
+}
+
+.ir br {
+    display: none;
+}
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+
+.invisible {
+    visibility: hidden;
+}
+
+/**
+ * Clearfix helper
+ * Used to contain floats: h5bp.com/q
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   Theses examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 800px) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+       only screen and (min-resolution: 144dpi) {
+    /* Style adjustments for viewports that meet the condition */
+}
